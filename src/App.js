@@ -1,24 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import { Leva } from "leva";
+import Home from "./screens/Home";
+import { PyodideProvider } from "./providers/Pyodide";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <PyodideProvider>
+      <div className="w-full h-screen">
+        <Home />
+        <div className="absolute overflow-auto top-2 left-2 max-h-96">
+          <Leva collapsed fill />
+        </div>
+      </div>
+    </PyodideProvider>
   );
 }
 
