@@ -8,6 +8,7 @@ import Controls from "../../objects/Controls";
 import { PerspectiveCamera } from "@react-three/drei";
 import { PyodideContext } from "../../providers/Pyodide";
 import script from "../../python/simulator.py";
+import Scene from "../../objects/Scene";
 
 function Home() {
   const defaultCameraRef = useRef(null);
@@ -43,11 +44,9 @@ function Home() {
           near={1}
           makeDefault
         />
-        {/* <Lights /> */}
-        {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
-        {/* <Scene /> */}
+        <Scene />
 
-        {/* Utilities */}
+        {/* Utils */}
         <Controls />
         <Gizmo />
       </Canvas>
