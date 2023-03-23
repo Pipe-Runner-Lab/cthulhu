@@ -2,6 +2,7 @@
   "name": "cthulhu",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://pipe-runner-lab.github.io/cthulhu/",
   "dependencies": {
     "@react-three/drei": "^9.58.1",
     "@react-three/fiber": "^8.12.0",
