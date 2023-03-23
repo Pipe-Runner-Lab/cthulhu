@@ -2,6 +2,7 @@ import {TextureLoader, RepeatWrapping, PlaneGeometry, Vector3} from "three";
 import React, { useRef, useMemo } from "react";
 import { extend, useThree, useLoader, useFrame } from "@react-three/fiber";
 import { Water } from "three-stdlib";
+import waterNormalTexture from "../../assets/waternormals.jpeg";
 
 extend({ Water });
 
@@ -9,7 +10,7 @@ export default function Ocean() {
   const ref = useRef();
   const gl = useThree((state) => state.gl);
 
-  const waterNormals = useLoader(TextureLoader, "/assets/waternormals.jpeg");
+  const waterNormals = useLoader(TextureLoader, waterNormalTexture);
   waterNormals.wrapS = waterNormals.wrapT = RepeatWrapping;
 
   const geom = useMemo(() => new PlaneGeometry(10000, 10000), []);
