@@ -9,7 +9,7 @@ export default function Ocean() {
   const ref = useRef();
   const gl = useThree((state) => state.gl);
 
-  const waterNormals = useLoader(TextureLoader, "/waternormals.jpeg");
+  const waterNormals = useLoader(TextureLoader, "/assets/waternormals.jpeg");
   waterNormals.wrapS = waterNormals.wrapT = RepeatWrapping;
 
   const geom = useMemo(() => new PlaneGeometry(10000, 10000), []);
