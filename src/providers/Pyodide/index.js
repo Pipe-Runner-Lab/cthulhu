@@ -8,14 +8,18 @@ export function PyodideProvider({ children }) {
 
   const loadPyodide = async () => {
     const pyodide = await window.loadPyodide();
+    await pyodide.loadPackage(["numpy"]);
     return pyodide;
   };
 
   useEffect(() => {
-    loadPyodide().then((pyodide) => {
+    const loadAndSetPyodide = async () => {
+      const pyodide = await loadPyodide();
       setPyodide(pyodide);
       setIsPyodideLoading(false);
-    });
+    };
+
+    loadAndSetPyodide();
   }, []);
 
   return (
