@@ -1,5 +1,4 @@
 import React from "react";
-import useStore from "../../../store";
 import clsx from "clsx";
 
 function SimulationControls({ computeSimulation }) {
