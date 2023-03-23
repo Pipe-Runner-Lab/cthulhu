@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/cthulhu/static/css/main.b325e6e6.css",
-    "main.js": "/cthulhu/static/js/main.3ec396a4.js",
+    "main.js": "/cthulhu/static/js/main.b23d746f.js",
     "static/js/787.9ee0b182.chunk.js": "/cthulhu/static/js/787.9ee0b182.chunk.js",
     "index.html": "/cthulhu/index.html",
     "static/media/simulator.py": "/cthulhu/static/media/simulator.e2e2a557b49ccdb1af0b.py",
     "main.b325e6e6.css.map": "/cthulhu/static/css/main.b325e6e6.css.map",
-    "main.3ec396a4.js.map": "/cthulhu/static/js/main.3ec396a4.js.map",
+    "main.b23d746f.js.map": "/cthulhu/static/js/main.b23d746f.js.map",
     "787.9ee0b182.chunk.js.map": "/cthulhu/static/js/787.9ee0b182.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b325e6e6.css",
-    "static/js/main.3ec396a4.js"
+    "static/js/main.b23d746f.js"
   ]
 }
