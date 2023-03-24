@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/cthulhu/static/css/main.b325e6e6.css",
-    "main.js": "/cthulhu/static/js/main.64f022a3.js",
+    "main.css": "/cthulhu/static/css/main.1b9a7e4b.css",
+    "main.js": "/cthulhu/static/js/main.89102a76.js",
     "static/js/787.9ee0b182.chunk.js": "/cthulhu/static/js/787.9ee0b182.chunk.js",
     "static/media/vessels_1.fbx": "/cthulhu/static/media/vessels_1.4c43b6f1e657dcf7e004.fbx",
     "static/media/marker.fbx": "/cthulhu/static/media/marker.bfce89a09c8027d29134.fbx",
     "static/media/waternormals.jpeg": "/cthulhu/static/media/waternormals.c01acb52aeed9bdc6da3.jpeg",
     "index.html": "/cthulhu/index.html",
     "static/media/simulator.py": "/cthulhu/static/media/simulator.e2e2a557b49ccdb1af0b.py",
-    "main.b325e6e6.css.map": "/cthulhu/static/css/main.b325e6e6.css.map",
-    "main.64f022a3.js.map": "/cthulhu/static/js/main.64f022a3.js.map",
+    "main.1b9a7e4b.css.map": "/cthulhu/static/css/main.1b9a7e4b.css.map",
+    "main.89102a76.js.map": "/cthulhu/static/js/main.89102a76.js.map",
     "787.9ee0b182.chunk.js.map": "/cthulhu/static/js/787.9ee0b182.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b325e6e6.css",
-    "static/js/main.64f022a3.js"
+    "static/css/main.1b9a7e4b.css",
+    "static/js/main.89102a76.js"
   ]
 }
