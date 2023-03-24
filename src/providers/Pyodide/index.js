@@ -19,7 +19,6 @@ export function PyodideProvider({ children }) {
     script.type = "text/javascript";
     script.async = true;
     script.onload = function () {
-      console.log("loaded");
       setupPyodide();
     };
     script.onError = function () {

@@ -24,13 +24,16 @@ function EditorPanel() {
   const { pyodide, isPyodideLoading } = useContext(PyodideContext);
 
   const computeSimulation = async () => {
-    if (isPyodideLoading) {
-      console.log("Pyodide is loading...");
-    } else {
-      console.log("Pyodide is loaded!");
+    if (!isPyodideLoading) {
+      window.simulator_input = {
+        x: 0,
+        y: 0,
+      };
+
       const code = await extractScriptText(script);
       const output = await pyodide.runPythonAsync(code);
-      console.log(output);
+
+      console.log(pyodide.globals.get("output").toJs());
     }
   };
 
