@@ -31,7 +31,7 @@ function EditorPanel() {
       };
 
       const code = await extractScriptText(script);
-      const output = await pyodide.runPythonAsync(code);
+      await pyodide.runPythonAsync(code);
 
       console.log(pyodide.globals.get("output").toJs());
     }
