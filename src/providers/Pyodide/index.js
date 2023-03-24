@@ -6,20 +6,31 @@ export function PyodideProvider({ children }) {
   const [pyodide, setPyodide] = useState(null);
   const [isPyodideLoading, setIsPyodideLoading] = useState(true);
 
-  const loadPyodide = async () => {
+  const setupPyodide = async () => {
     const pyodide = await window.loadPyodide();
     await pyodide.loadPackage(["numpy"]);
-    return pyodide;
+    setPyodide(pyodide);
+    setIsPyodideLoading(false);
+  };
+
+  const loadPyodide = () => {
+    const script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/pyodide/v0.22.1/full/pyodide.js";
+    script.type = "text/javascript";
+    script.async = true;
+    script.onload = function () {
+      console.log("loaded");
+      setupPyodide();
+    };
+    script.onError = function () {
+      console.error("Failed to load pyodide");
+    };
+    document.head.appendChild(script);
   };
 
   useEffect(() => {
-    const loadAndSetPyodide = async () => {
-      const pyodide = await loadPyodide();
-      setPyodide(pyodide);
-      setIsPyodideLoading(false);
-    };
-
-    loadAndSetPyodide();
+    loadPyodide();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
