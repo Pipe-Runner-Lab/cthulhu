@@ -1,7 +1,8 @@
-import { useFBX } from "@react-three/drei";
-import shipModel from "../../assets/vessels_1.fbx";
+import shipModel from "../../assets/ship.gltf";
+import { useLoader } from '@react-three/fiber'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 export default function Ship() {
-  const fbx = useFBX(shipModel);
-  return <group><primitive scale={0.002} object={fbx} /></group>;
+  const gltf = useLoader(GLTFLoader, shipModel)
+  return <primitive scale={0.1} object={gltf.scene} />;
 }

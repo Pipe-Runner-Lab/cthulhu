@@ -1,11 +1,12 @@
-import { useFBX } from "@react-three/drei";
-import markerModel from "../../assets/marker.fbx";
+import markerModel from "../../assets/bouy.gltf";
+import { useLoader } from "@react-three/fiber";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 export default function Marker() {
-  const fbx = useFBX(markerModel);
+  const gltf = useLoader(GLTFLoader, markerModel);
   return (
     <group>
-      <primitive scale={0.002} object={fbx} />
+      <primitive position-x={20} scale={0.1} object={gltf.scene} />
     </group>
   );
 }
