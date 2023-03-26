@@ -2,8 +2,8 @@ import numpy as np
 from numpy.linalg import inv
 from js import window
 
-x_1 = window.simulator_input.x
-x_2 = window.simulator_input.y
+force_x = window.simulator_input.force.x
+force_y = window.simulator_input.force.y
 
 def rk4_integrator(x_0, t_0, t_n, dt, dx, u):
     x = x_0
@@ -113,15 +113,22 @@ F_u = 2
 F_v = 1
 '''
 X_0 = np.array([0, 0, 0, 0, 0, 0])
-U = [1, -1] 
+U = [force_x, -force_y] 
 
 t_0 = 0
 T = 20
-dt = 0.1
+dt = 0.06
 
 state_time = []
 state_integrator = rk4_integrator(X_0, t_0, T, dt, dx, np.array(U))
 for x, t in state_integrator:
-    state_time.append({"Position (X)": x[0], "Position (Y)": x[1], "Position (Sai)": x[2], "Vel (u)": x[3], "Vel (v)": x[4], "yaw rate (r)": x[5], "Time": t})
+    # state_time.append({"Position (X)": x[0], "Position (Y)": x[1], "Position (Sai)": x[2], "Vel (u)": x[3], "Vel (v)": x[4], "yaw rate (r)": x[5], "Time": t})
+    # state_time.append({"Position (X)": x[0], "Position (Y)": x[1], "Position (Sai)": x[2], "Time": t})
+    state_time.extend([
+        x[0],
+        x[1],
+        x[2],
+        t
+    ])
 
-output = []
+index_skip = 4

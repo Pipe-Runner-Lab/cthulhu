@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import useStore from "../../store";
 import { HiOutlineMenu as OpenIcon } from "react-icons/hi";
 import PrimaryHeader from "./components/PrimaryHeader";
@@ -7,6 +7,7 @@ import { PyodideContext } from "../../providers/Pyodide";
 import script from "../../python/simulator.py";
 import { extractScriptText } from "../../utils/script-text";
 import SimulationControls from "./components/SimulationControls";
+import Input from "../Input/Input";
 
 const menuVariants = {
   open: {
@@ -20,20 +21,33 @@ const menuVariants = {
 function EditorPanel() {
   const isMenuOpen = useStore((state) => state.isMenuOpen);
   const setIsMenuOpen = useStore((state) => state.setIsMenuOpen);
+  const setSimulationData = useStore((state) => state.setSimulationData);
+  const setIndexSkip = useStore((state) => state.setIndexSkip);
+  const animating = useStore((state) => state.animating);
+  const setAnimating = useStore((state) => state.setAnimating);
+
+  const [isComputing, setIsComputing] = useState(false);
 
   const { pyodide, isPyodideLoading } = useContext(PyodideContext);
 
+  const [force, setForce] = useState({
+    x: 2,
+    y: -2,
+  });
+
   const computeSimulation = async () => {
+    setIsComputing(true);
+
     if (!isPyodideLoading) {
-      window.simulator_input = {
-        x: 0,
-        y: 0,
-      };
+      window.simulator_input = { force };
 
       const code = await extractScriptText(script);
       await pyodide.runPythonAsync(code);
 
-      console.log(pyodide.globals.get("output").toJs());
+      setSimulationData(pyodide.globals.get("state_time").toJs());
+      setIndexSkip(pyodide.globals.get("index_skip"));
+
+      setIsComputing(false);
     }
   };
 
@@ -69,28 +83,32 @@ function EditorPanel() {
       <div className="h-[1px] w-auto mx-2 bg-gray-300" />
 
       <div className="flex flex-col flex-1 p-2 space-y-2 overflow-auto">
-        <div className="flex flex-col p-2 space-y-2 border border-gray-400 border-solid rounded-md min-h-[60%]">
+        <div className="flex flex-col p-2 space-y-2 border border-gray-400 border-solid rounded-md">
           <div className="flex items-center justify-center w-full py-1 rounded-sm bg-violet-300">
             Simulation Controls
           </div>
-          <div className="flex items-center justify-center flex-1">
-            {/* {heatData.length > 0 ? (
-                <Heatmap
-                  xField="x"
-                  yField="z"
-                  colorField="value"
-                  data={heatData}
-                  {...heatConfig}
-                />
-              ) : (
-                <div>
-                  {simulationState === "play"
-                    ? "Collecting data..."
-                    : "Start computation to collect data"}
-                </div>
-              )} */}
+          <div className="">
+            <Input
+              value={force.x}
+              onChange={(value) => setForce({ x: value, ...force })}
+            />
+
+            <Input
+              value={force.y}
+              onChange={(value) => setForce({ y: value, ...force })}
+            />
           </div>
           <SimulationControls computeSimulation={computeSimulation} />
+        </div>
+
+        <div>
+          <button
+            onClick={() => {
+              setAnimating(true);
+            }}
+          >
+            {animating ? "Stop" : "Play"}
+          </button>
         </div>
       </div>
     </motion.div>

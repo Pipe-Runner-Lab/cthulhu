@@ -1,17 +1,16 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext } from "react";
 import { Canvas } from "@react-three/fiber";
 import Gizmo from "../../objects/Gizmo";
 import Controls from "../../objects/Controls";
 import EditorPanel from "../../components/EditorPanel";
-import { PerspectiveCamera } from "@react-three/drei";
 import Scene from "../../objects/Scene";
 import { Leva } from "leva";
 import { PyodideContext } from "../../providers/Pyodide";
+import Lights from "../../objects/Lights";
+import Cameras from "../../objects/Cameras";
 
 function Home() {
   const { isPyodideLoading } = useContext(PyodideContext);
-
-  const defaultCameraRef = useRef(null);
 
   return (
     <>
@@ -25,14 +24,9 @@ function Home() {
         className="relative w-full h-full overflow-hidden"
       >
         <Canvas shadows>
-          <PerspectiveCamera
-            ref={defaultCameraRef}
-            position={[45, 26, 45]}
-            fov={35}
-            far={500}
-            near={1}
-            makeDefault
-          />
+          
+          <Cameras />
+          <Lights />
           <Scene />
 
           {/* Utils */}

@@ -8,6 +8,14 @@ const useStore = create((set) => ({
       : set((_) => ({
           isMenuOpen: isOpen,
         })),
+  isComputing: false,
+  setIsComputing: (isComputing) => set({ isComputing }),
+  simulationData: null,
+  setSimulationData: (simulationData) => set({ simulationData }),
+  indexSkip: null,
+  setIndexSkip: (indexSkip) => set({ indexSkip }),
+  animating: false,
+  setAnimating: (animating) => set({ animating }),
 }));
 
 export default useStore;
