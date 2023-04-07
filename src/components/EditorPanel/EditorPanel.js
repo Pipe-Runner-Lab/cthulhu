@@ -6,8 +6,10 @@ import PrimaryHeader from "./components/PrimaryHeader";
 import { PyodideContext } from "../../providers/Pyodide";
 import script from "../../python/simulator.py";
 import { extractScriptText } from "../../utils/script-text";
-import SimulationControls from "./components/SimulationControls";
+import InputControls from "./components/InputControls";
 import Input from "../Input/Input";
+import { PlayerControls } from "./components/PlayerControls";
+
 
 const menuVariants = {
   open: {
@@ -23,9 +25,7 @@ function EditorPanel() {
   const setIsMenuOpen = useStore((state) => state.setIsMenuOpen);
   const setSimulationData = useStore((state) => state.setSimulationData);
   const setIndexSkip = useStore((state) => state.setIndexSkip);
-  const animating = useStore((state) => state.animating);
-  const setAnimating = useStore((state) => state.setAnimating);
-
+  
   const [isComputing, setIsComputing] = useState(false);
 
   const { pyodide, isPyodideLoading } = useContext(PyodideContext);
@@ -98,17 +98,10 @@ function EditorPanel() {
               onChange={(value) => setForce({ y: value, ...force })}
             />
           </div>
-          <SimulationControls computeSimulation={computeSimulation} />
-        </div>
+          
+          <InputControls computeSimulation={computeSimulation} />
 
-        <div>
-          <button
-            onClick={() => {
-              setAnimating(true);
-            }}
-          >
-            {animating ? "Stop" : "Play"}
-          </button>
+          <PlayerControls />
         </div>
       </div>
     </motion.div>

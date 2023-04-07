@@ -16,6 +16,8 @@ const useStore = create((set) => ({
   setIndexSkip: (indexSkip) => set({ indexSkip }),
   animating: false,
   setAnimating: (animating) => set({ animating }),
+  animationProgress: 0,
+  setAnimationProgress: (animationProgress) => set({ animationProgress }),
 }));
 
 export default useStore;
