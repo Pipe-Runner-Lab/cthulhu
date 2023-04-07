@@ -4,6 +4,8 @@ import { useRef } from "react";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import useStore from "../../store";
 
+const SCALE_FACTOR = 100
+
 export default function Ship() {
   const shipRef = useRef();
   const dataCounterIndex = useRef(0);
@@ -19,13 +21,10 @@ export default function Ship() {
       const idx = indexSkip * dataCounterIndex.current;
 
       if (idx < simulationData.length) {
-        shipRef.current.position.x = simulationData[idx + 0] * 50;
-        shipRef.current.position.z = simulationData[idx + 1] * 50;
-        shipRef.current.rotation.y = simulationData[idx + 2];
-
-        console.log("shipRef.current.position.x", shipRef.current.position.x);
-        console.log("shipRef.current.position.z", shipRef.current.position.z);
-        console.log("shipRef.current.rotation.y", shipRef.current.rotation.y);
+        // x and z are swapped because of co-ordinate system
+        shipRef.current.position.z = simulationData[idx + 0] * SCALE_FACTOR;
+        shipRef.current.position.x = simulationData[idx + 1] * SCALE_FACTOR;
+        shipRef.current.rotation.y = simulationData[idx + 2]; // TODO: Is it in radians?
 
         dataCounterIndex.current += 1;
       } else {

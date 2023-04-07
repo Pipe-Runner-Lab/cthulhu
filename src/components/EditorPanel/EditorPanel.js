@@ -31,8 +31,8 @@ function EditorPanel() {
   const { pyodide, isPyodideLoading } = useContext(PyodideContext);
 
   const [force, setForce] = useState({
-    x: 2,
-    y: -2,
+    x: 1,
+    y: -1,
   });
 
   const computeSimulation = async () => {

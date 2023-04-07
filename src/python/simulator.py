@@ -113,22 +113,21 @@ F_u = 2
 F_v = 1
 '''
 X_0 = np.array([0, 0, 0, 0, 0, 0])
-U = [force_x, -force_y] 
+U = [force_x, force_y] 
 
 t_0 = 0
-T = 20
-dt = 0.06
+T = 60
+dt = 0.016
 
 state_time = []
 state_integrator = rk4_integrator(X_0, t_0, T, dt, dx, np.array(U))
 for x, t in state_integrator:
-    # state_time.append({"Position (X)": x[0], "Position (Y)": x[1], "Position (Sai)": x[2], "Vel (u)": x[3], "Vel (v)": x[4], "yaw rate (r)": x[5], "Time": t})
-    # state_time.append({"Position (X)": x[0], "Position (Y)": x[1], "Position (Sai)": x[2], "Time": t})
+    # state_time.append({"Position (X)": x[0], "Position (Y)": x[1], "yaw rate (r)": x[2], "Vel (u)": x[3], "Vel (v)": x[4], "Position (Sai)": x[5], "Time": t})
     state_time.extend([
         x[0],
         x[1],
-        x[2],
-        t
+        x[2]
     ])
 
-index_skip = 4
+# print(f"{state_time[-3]} {state_time[-2]} {state_time[-1]} {len(state_time) / 3}")
+index_skip = 3
