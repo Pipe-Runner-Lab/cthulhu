@@ -4,12 +4,15 @@ import useStore from "../../store";
 import { HiOutlineMenu as OpenIcon } from "react-icons/hi";
 import PrimaryHeader from "./components/PrimaryHeader";
 import { PyodideContext } from "../../providers/Pyodide";
-import script from "../../python/simulator.py";
-import { extractScriptText } from "../../utils/script-text";
 import InputControls from "./components/InputControls";
 import Input from "../Input/Input";
 import { PlayerControls } from "./components/PlayerControls";
-
+import {
+  FaPlay as PlayIcon,
+  FaPause as PauseIcon,
+  FaStop as ResetIcon,
+} from "react-icons/fa";
+import { computeSimulation } from "../../utils/compute-async";
 
 const menuVariants = {
   open: {
@@ -25,31 +28,14 @@ function EditorPanel() {
   const setIsMenuOpen = useStore((state) => state.setIsMenuOpen);
   const setSimulationData = useStore((state) => state.setSimulationData);
   const setIndexSkip = useStore((state) => state.setIndexSkip);
-  
+
   const [isComputing, setIsComputing] = useState(false);
+  const animating = useStore((state) => state.animating);
+  const setAnimating = useStore((state) => state.setAnimating);
+  const force = useStore((state) => state.force);
+  const setForce = useStore((state) => state.setForce);
 
   const { pyodide, isPyodideLoading } = useContext(PyodideContext);
-
-  const [force, setForce] = useState({
-    x: 1,
-    y: -1,
-  });
-
-  const computeSimulation = async () => {
-    setIsComputing(true);
-
-    if (!isPyodideLoading) {
-      window.simulator_input = { force };
-
-      const code = await extractScriptText(script);
-      await pyodide.runPythonAsync(code);
-
-      setSimulationData(pyodide.globals.get("state_time").toJs());
-      setIndexSkip(pyodide.globals.get("index_skip"));
-
-      setIsComputing(false);
-    }
-  };
 
   return (
     <motion.div
@@ -60,19 +46,40 @@ function EditorPanel() {
         type: "tween",
       }}
       initial="closed"
-      className="absolute flex flex-col w-1/4 min-w-[360px] max-w-md bg-white rounded-md shadow-md min-w-sm top-2 bottom-2 right-2 backdrop-blur-sm bg-opacity-90"
+      className="absolute flex flex-col w-1/4 min-w-[360px] max-w-md bg-white rounded-md shadow-md min-w-sm top-2 right-2 backdrop-blur-sm bg-opacity-70"
     >
       <AnimatePresence>
         {!isMenuOpen && (
-          <motion.button
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { duration: 1 } }}
-            exit={{ opacity: 0, transition: { duration: 0.3 } }}
-            className="shadow-md bg-blue-300 w-10 h-10 rounded-md absolute top-[0.5rem] left-0 translate-x-[calc(-100%-1rem)] flex items-center justify-center"
-            onClick={() => setIsMenuOpen(true)}
-          >
-            <OpenIcon size={26} />
-          </motion.button>
+          <motion.div>
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 1 } }}
+              exit={{ opacity: 0, transition: { duration: 0.3 } }}
+              className="shadow-md bg-blue-300 w-10 h-10 rounded-md absolute top-[0.5rem] left-0 translate-x-[calc(-100%-1rem)] flex items-center justify-center"
+              onClick={() => setIsMenuOpen(true)}
+            >
+              <OpenIcon size={26} />
+            </motion.button>
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 1 } }}
+              exit={{ opacity: 0, transition: { duration: 0.3 } }}
+              className="shadow-md bg-gray-300 w-10 h-10 rounded-md absolute top-[0.5rem] left-0 translate-x-[calc(-100%-1rem)] translate-y-[calc(100%+1rem)] flex items-center justify-center"
+              onClick={() => {
+                setAnimating(!animating);
+              }}
+            >
+              {animating ? <PauseIcon size={26} /> : <PlayIcon size={26} />}
+            </motion.button>
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 1 } }}
+              exit={{ opacity: 0, transition: { duration: 0.3 } }}
+              className="shadow-md bg-red-300 w-10 h-10 rounded-md absolute top-[0.5rem] left-0 translate-x-[calc(-100%-1rem)] translate-y-[calc(200%+2rem)] flex items-center justify-center"
+            >
+              <ResetIcon size={26} />
+            </motion.button>
+          </motion.div>
         )}
       </AnimatePresence>
       {/* Primary Panel content */}
@@ -98,8 +105,25 @@ function EditorPanel() {
               onChange={(value) => setForce({ y: value, ...force })}
             />
           </div>
-          
-          <InputControls computeSimulation={computeSimulation} />
+
+          <InputControls
+            isDisabled={isComputing}
+            computeSimulation={() =>
+              !isPyodideLoading &&
+              computeSimulation(
+                pyodide,
+                {
+                  force,
+                },
+                () => setIsComputing(true),
+                ({ state_time, index_skip }) => {
+                  setIndexSkip(index_skip);
+                  setSimulationData(state_time);
+                  setIsComputing(false);
+                }
+              )
+            }
+          />
 
           <PlayerControls />
         </div>

@@ -4,7 +4,7 @@ import React from "react";
 function Gizmo() {
   return (
     <GizmoHelper
-      alignment="bottom-left" // widget alignment within scene
+      alignment="bottom-right" // widget alignment within scene
       margin={[80, 80]} // widget margins (X, Y)
     >
       <GizmoViewport axisColors={["red", "green", "blue"]} labelColor="black" />

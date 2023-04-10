@@ -3,6 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import Gizmo from "../../objects/Gizmo";
 import Controls from "../../objects/Controls";
 import EditorPanel from "../../components/EditorPanel";
+import GraphPanel from "../../components/GraphPanel";
 import Scene from "../../objects/Scene";
 import { Leva } from "leva";
 import { PyodideContext } from "../../providers/Pyodide";
@@ -35,10 +36,11 @@ function Home() {
         </Canvas>
 
         <EditorPanel />
+        <GraphPanel />
       </div>
-      <div className="absolute overflow-auto top-2 left-2 max-h-96">
+      {/* <div className="absolute overflow-auto top-2 left-2 max-h-96">
         <Leva collapsed fill />
-      </div>
+      </div> */}
     </>
   );
 }

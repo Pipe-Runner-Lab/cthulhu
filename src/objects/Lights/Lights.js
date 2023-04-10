@@ -1,16 +1,8 @@
-import { useHelper } from "@react-three/drei";
-import { useControls } from "leva";
 import React, { useMemo, useRef } from "react";
-import { DirectionalLightHelper, Object3D } from "three";
+import { Object3D } from "three";
 
 function Lights() {
   const directionalLightRef = useRef(null);
-
-  const { position, shouldShowHelper } = useControls("Sun", {
-    shouldShowHelper: { value: false, label: "Debug" },
-  });
-
-  useHelper(shouldShowHelper && directionalLightRef, DirectionalLightHelper);
 
   const target = useMemo(() => {
     const target = new Object3D();
@@ -25,7 +17,6 @@ function Lights() {
         ref={directionalLightRef}
         intensity={1}
         color="white"
-        position={position}
         target={target}
       />
     </>

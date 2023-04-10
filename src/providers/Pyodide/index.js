@@ -1,15 +1,34 @@
 import { createContext, useEffect, useState } from "react";
+import { computeSimulation } from "../../utils/compute-async";
+import useStore from "../../store";
 
 export const PyodideContext = createContext();
 
 export function PyodideProvider({ children }) {
   const [pyodide, setPyodide] = useState(null);
   const [isPyodideLoading, setIsPyodideLoading] = useState(true);
+  const force = useStore((state) => state.force);
+  const setSimulationData = useStore((state) => state.setSimulationData);
+  const setIndexSkip = useStore((state) => state.setIndexSkip);
 
   const setupPyodide = async () => {
     const pyodide = await window.loadPyodide();
     await pyodide.loadPackage(["numpy"]);
     setPyodide(pyodide);
+
+    // Run the simulation once to initialize the state (pre-compute)
+    await computeSimulation(
+      pyodide,
+      {
+        force,
+      },
+      () => {},
+      ({ state_time, index_skip }) => {
+        setIndexSkip(index_skip);
+        setSimulationData(state_time);
+      }
+    )
+
     setIsPyodideLoading(false);
   };
 
