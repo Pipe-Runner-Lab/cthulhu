@@ -94,7 +94,7 @@ def B():
     c = np.concatenate((a, b), axis=0)
     return c
 
-# X = [x, y, r, u, v, sai]
+# X = [x, y, sai, u, v, r]
 def dx(X, t = None, U = np.array([0, 0])):
     V = X[3:]
     sai = X[2]
