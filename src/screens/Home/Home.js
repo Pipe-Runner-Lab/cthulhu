@@ -1,12 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Canvas } from "@react-three/fiber";
 import Gizmo from "../../objects/Gizmo";
 import Controls from "../../objects/Controls";
 import EditorPanel from "../../components/EditorPanel";
 import GraphPanel from "../../components/GraphPanel";
 import Scene from "../../objects/Scene";
-import { Leva } from "leva";
-import { PyodideContext } from "../../providers/Pyodide";
 import Lights from "../../objects/Lights";
 import Cameras from "../../objects/Cameras";
 

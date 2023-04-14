@@ -1,6 +1,4 @@
-import { createContext, useEffect, useMemo, useRef, useState } from "react";
-import { computeSimulation } from "../../utils/compute-async";
-import useStore from "../../store";
+import { createContext, useEffect, useMemo, useRef } from "react";
 
 export const PyodideContext = createContext();
 

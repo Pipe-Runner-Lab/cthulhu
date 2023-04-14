@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import useStore from "../../store";
 import { HiOutlineMenu as OpenIcon } from "react-icons/hi";
 import PrimaryHeader from "./components/PrimaryHeader";
@@ -12,7 +12,7 @@ import {
   FaPause as PauseIcon,
   FaStop as ResetIcon,
 } from "react-icons/fa";
-import { computeSimulation } from "../../utils/compute-async";
+// import { computeSimulation } from "../../utils/compute-async";
 import script from "../../python/simulator.py";
 import { extractScriptText } from "../../utils/script-text";
 
@@ -28,10 +28,10 @@ const menuVariants = {
 function EditorPanel() {
   const isMenuOpen = useStore((state) => state.isMenuOpen);
   const setIsMenuOpen = useStore((state) => state.setIsMenuOpen);
-  const setSimulationData = useStore((state) => state.setSimulationData);
-  const setIndexSkip = useStore((state) => state.setIndexSkip);
+  // const setSimulationData = useStore((state) => state.setSimulationData);
+  // const setIndexSkip = useStore((state) => state.setIndexSkip);
 
-  const [isComputing, setIsComputing] = useState(false);
+  // const [isComputing, setIsComputing] = useState(false);
   const animating = useStore((state) => state.animating);
   const setAnimating = useStore((state) => state.setAnimating);
   const force = useStore((state) => state.force);
@@ -109,7 +109,7 @@ function EditorPanel() {
           </div>
 
           <InputControls
-            isDisabled={isComputing}
+            // isDisabled={isComputing}
             // computeSimulation={() =>
             //   !isPyodideLoading &&
             //   computeSimulation(
