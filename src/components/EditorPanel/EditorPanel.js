@@ -13,6 +13,8 @@ import {
   FaStop as ResetIcon,
 } from "react-icons/fa";
 import { computeSimulation } from "../../utils/compute-async";
+import script from "../../python/simulator.py";
+import { extractScriptText } from "../../utils/script-text";
 
 const menuVariants = {
   open: {
@@ -35,7 +37,7 @@ function EditorPanel() {
   const force = useStore((state) => state.force);
   const setForce = useStore((state) => state.setForce);
 
-  const { pyodide, isPyodideLoading } = useContext(PyodideContext);
+  const { asyncRun } = useContext(PyodideContext);
 
   return (
     <motion.div
@@ -108,21 +110,31 @@ function EditorPanel() {
 
           <InputControls
             isDisabled={isComputing}
-            computeSimulation={() =>
-              !isPyodideLoading &&
-              computeSimulation(
-                pyodide,
-                {
-                  force,
-                },
-                () => setIsComputing(true),
-                ({ state_time, index_skip }) => {
-                  setIndexSkip(index_skip);
-                  setSimulationData(state_time);
-                  setIsComputing(false);
-                }
-              )
-            }
+            // computeSimulation={() =>
+            //   !isPyodideLoading &&
+            //   computeSimulation(
+            //     pyodide,
+            //     {
+            //       force,
+            //     },
+            //     () => setIsComputing(true),
+            //     ({ state_time, index_skip }) => {
+            //       setIndexSkip(index_skip);
+            //       setSimulationData(state_time);
+            //       setIsComputing(false);
+            //     }
+            //   )
+            // }
+            computeSimulation={async () => {
+              const code = await extractScriptText(script);
+
+              const context = {
+                force_x: force.x,
+                force_y: force.y,
+              }
+              const { variables, error } = await asyncRun(code, context);
+              console.log(variables, error);
+            }}
           />
 
           <PlayerControls />
