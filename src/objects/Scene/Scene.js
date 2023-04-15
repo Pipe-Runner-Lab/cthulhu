@@ -20,6 +20,8 @@ export default function Scene() {
   const setAnimating = useStore((state) => state.setAnimating);
   const setAnimationProgress = useStore((state) => state.setAnimationProgress);
 
+  console.log(simulationData, indexSkip);
+
   // useEffect(() => {
   //   if (animating) {
   //     dataCounterIndex.current = 0;

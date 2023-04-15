@@ -8,8 +8,8 @@ function SimulationControls({ computeSimulation, isDisabled }) {
           disabled={isDisabled}
           onClick={computeSimulation}
           className={clsx("h-9 rounded-md flex-1 shadow-sm", {
-            "bg-green-300 ": true,
-            "bg-red-300 ": false,
+            "bg-green-300 ": !isDisabled,
+            "bg-gray-300 text-gray-600": isDisabled,
           })}
         >
           Compute

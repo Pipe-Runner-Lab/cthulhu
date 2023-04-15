@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useStore from "../../store";
 import { HiOutlineMenu as OpenIcon } from "react-icons/hi";
 import PrimaryHeader from "./components/PrimaryHeader";
@@ -12,7 +12,6 @@ import {
   FaPause as PauseIcon,
   FaStop as ResetIcon,
 } from "react-icons/fa";
-// import { computeSimulation } from "../../utils/compute-async";
 import script from "../../python/simulator.py";
 import { extractScriptText } from "../../utils/script-text";
 
@@ -26,18 +25,45 @@ const menuVariants = {
 };
 
 function EditorPanel() {
+  const { asyncRun } = useContext(PyodideContext);
+
   const isMenuOpen = useStore((state) => state.isMenuOpen);
   const setIsMenuOpen = useStore((state) => state.setIsMenuOpen);
-  // const setSimulationData = useStore((state) => state.setSimulationData);
-  // const setIndexSkip = useStore((state) => state.setIndexSkip);
+  const setSimulationData = useStore((state) => state.setSimulationData);
+  const setIndexSkip = useStore((state) => state.setIndexSkip);
 
-  // const [isComputing, setIsComputing] = useState(false);
   const animating = useStore((state) => state.animating);
   const setAnimating = useStore((state) => state.setAnimating);
-  const force = useStore((state) => state.force);
-  const setForce = useStore((state) => state.setForce);
+  const isComputing = useStore((state) => state.isComputing);
 
-  const { asyncRun } = useContext(PyodideContext);
+  const computeSimulation = async () => {
+    const code = await extractScriptText(script);
+
+    const context = {
+      force_x: force.x,
+      force_y: force.y,
+    };
+    const {
+      variables: { state_time, index_skip },
+      error,
+    } = await asyncRun(code, context);
+
+    if (error) console.error(error);
+
+    setSimulationData(state_time);
+    setIndexSkip(index_skip);
+
+    console.log(index_skip);
+  };
+
+  useEffect(() => {
+    computeSimulation();
+  }, []);
+
+  const [force, setForce] = useState({
+    x: 1,
+    y: -1,
+  });
 
   return (
     <motion.div
@@ -109,32 +135,8 @@ function EditorPanel() {
           </div>
 
           <InputControls
-            // isDisabled={isComputing}
-            // computeSimulation={() =>
-            //   !isPyodideLoading &&
-            //   computeSimulation(
-            //     pyodide,
-            //     {
-            //       force,
-            //     },
-            //     () => setIsComputing(true),
-            //     ({ state_time, index_skip }) => {
-            //       setIndexSkip(index_skip);
-            //       setSimulationData(state_time);
-            //       setIsComputing(false);
-            //     }
-            //   )
-            // }
-            computeSimulation={async () => {
-              const code = await extractScriptText(script);
-
-              const context = {
-                force_x: force.x,
-                force_y: force.y,
-              }
-              const { variables, error } = await asyncRun(code, context);
-              console.log(variables, error);
-            }}
+            isDisabled={isComputing}
+            computeSimulation={computeSimulation}
           />
 
           <PlayerControls />

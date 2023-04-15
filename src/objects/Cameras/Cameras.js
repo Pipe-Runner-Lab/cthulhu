@@ -13,8 +13,6 @@ const _viewport = {
   bottom: -viewSize / 2,
 };
 
-console.log(_viewport);
-
 export default function Cameras() {
   const topDownCameraRef = useRef(null);
 

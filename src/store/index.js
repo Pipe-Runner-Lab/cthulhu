@@ -18,11 +18,6 @@ const useStore = create((set) => ({
   setAnimating: (animating) => set({ animating }),
   animationProgress: 0,
   setAnimationProgress: (animationProgress) => set({ animationProgress }),
-  force: {
-    x: 1,
-    y: -1,
-  },
-  setForce: (force) => set({ force }),
 }));
 
 export default useStore;

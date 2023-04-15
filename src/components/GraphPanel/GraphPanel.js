@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import useStore from "../../store";
+import { MeasurementGraph } from "./graphs/MeasurementGraph";
 
 const panelVariants = {
   open: {
@@ -23,9 +24,9 @@ export default function GraphPanel() {
         type: "tween",
       }}
       initial="closed"
-      className="absolute flex flex-col w-1/4 min-w-[360px] max-w-md bg-white rounded-md shadow-md min-w-sm top-2 bottom-2 left-2 backdrop-blur-sm bg-opacity-70"
+      className="absolute p-2 flex flex-col w-1/4 min-w-[360px] max-w-md bg-white rounded-md shadow-md min-w-sm top-2 bottom-2 left-2 backdrop-blur-sm bg-opacity-70"
     >
-      
+      <MeasurementGraph />
     </motion.div>
   );
 }
