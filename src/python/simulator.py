@@ -1,9 +1,9 @@
 import numpy as np
 from numpy.linalg import inv
-from js import window
+from js import force_x, force_y
 
-force_x = window.simulator_input.force.x
-force_y = window.simulator_input.force.y
+# force_x = window.simulator_input.force.x
+# force_y = window.simulator_input.force.y
 
 def rk4_integrator(x_0, t_0, t_n, dt, dx, u):
     x = x_0
@@ -131,3 +131,5 @@ for x, t in state_integrator:
 
 # print(f"{state_time[-3]} {state_time[-2]} {state_time[-1]} {len(state_time) / 3}")
 index_skip = 3
+
+print("hello")

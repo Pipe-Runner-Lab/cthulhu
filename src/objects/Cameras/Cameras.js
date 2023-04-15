@@ -1,6 +1,5 @@
-import { OrthographicCamera, PerspectiveCamera, useHelper } from "@react-three/drei";
+import { OrthographicCamera, PerspectiveCamera } from "@react-three/drei";
 import React, { useEffect, useRef } from "react";
-import { CameraHelper } from "three";
 
 var w = window.innerWidth;
 var h = window.innerHeight;

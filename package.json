@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://pipe-runner-lab.github.io/cthulhu",
   "dependencies": {
+    "@koale/useworker": "^4.0.2",
     "@react-three/drei": "^9.58.1",
     "@react-three/fiber": "^8.12.0",
     "@testing-library/jest-dom": "^5.16.5",

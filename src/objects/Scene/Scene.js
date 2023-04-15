@@ -5,7 +5,7 @@ import Lights from "../../objects/Lights";
 import Marker from "../../objects/Marker";
 import { useFrame } from "@react-three/fiber";
 import useStore from "../../store";
-import { useEffect, useMemo, useRef } from "react";
+import { useMemo, useRef } from "react";
 
 const SCALE_FACTOR = 100;
 
