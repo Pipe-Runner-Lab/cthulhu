@@ -23,8 +23,7 @@ self.onmessage = async (event) => {
     let results = await self.pyodide.runPythonAsync(python);
     
     const variables = {
-      index_skip: self.pyodide.globals.get("index_skip"),
-      state_time: self.pyodide.globals.get("state_time").toJs(),
+      output: self.pyodide.globals.get("output").toJs(),
     }
 
     self.postMessage({ results, variables, id });

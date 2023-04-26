@@ -3,45 +3,39 @@ import { Line } from "@ant-design/plots";
 import useStore from "../../../store";
 import { useWorker } from "@koale/useworker";
 
-const processData = (data, skipIndex, simplify = true) => {
+const processData = (data, simplify = true) => {
   let result = [];
-  let skip = 0;
+  const length = data.get("Time").length;
 
-  for (let i = 0; i < data.length; i += skipIndex) {
-    if (simplify && skip % 2 === 1) {
-      skip += 1;
-      continue;
-    }
-
-    const time = data[i + skipIndex - 1];
+  for (let i = 0; i < length; i += simplify ? 25 : 1) {
     result.push({
-      time,
-      value: data[i + 0],
+      time: data.get("Time")[i],
+      value: data.get("Position (X)")[i],
       category: "x",
     });
     result.push({
-      time,
-      value: data[i + 1],
+      time: data.get("Time")[i],
+      value: data.get("Position (Y)")[i],
       category: "y",
     });
     result.push({
-      time,
-      value: data[i + 2],
+      time: data.get("Time")[i],
+      value: data.get("Position (Sai)")[i],
       category: "Ψ",
     });
     result.push({
-      time,
-      value: data[i + 3],
+      time: data.get("Time")[i],
+      value: data.get("Vel (u)")[i],
       category: "u",
     });
     result.push({
-      time,
-      value: data[i + 4],
+      time: data.get("Time")[i],
+      value: data.get("Vel (v)")[i],
       category: "v",
     });
     result.push({
-      time,
-      value: data[i + 5],
+      time: data.get("Time")[i],
+      value: data.get("yaw rate (r)")[i],
       category: "r",
     });
   }
@@ -53,16 +47,15 @@ export function MeasurementGraph() {
   const [data, setData] = useState([]);
 
   const simulationData = useStore((state) => state.simulationData);
-  const indexSkip = useStore((state) => state.indexSkip);
   const [processDataWorker] = useWorker(processData);
 
   useEffect(() => {
-    if (simulationData && indexSkip) {
-      processDataWorker(simulationData, indexSkip).then((result) => {
+    if (simulationData) {
+      processDataWorker(simulationData).then((result) => {
         setData(result);
       });
     }
-  }, [indexSkip, simulationData, processDataWorker]);
+  }, [simulationData, processDataWorker]);
 
   const config = {
     data,
@@ -78,7 +71,7 @@ export function MeasurementGraph() {
       },
       tickCount: 8,
     },
-    // interactions: [{ type: "brush" }],
+    interactions: [{ type: "brush" }],
   };
 
   return (

@@ -30,7 +30,6 @@ function EditorPanel() {
   const isMenuOpen = useStore((state) => state.isMenuOpen);
   const setIsMenuOpen = useStore((state) => state.setIsMenuOpen);
   const setSimulationData = useStore((state) => state.setSimulationData);
-  const setIndexSkip = useStore((state) => state.setIndexSkip);
 
   const animating = useStore((state) => state.animating);
   const setAnimating = useStore((state) => state.setAnimating);
@@ -43,21 +42,20 @@ function EditorPanel() {
       force_x: force.x,
       force_y: force.y,
     };
+    
     const {
-      variables: { state_time, index_skip },
+      variables: { output },
       error,
     } = await asyncRun(code, context);
 
     if (error) console.error(error);
 
-    setSimulationData(state_time);
-    setIndexSkip(index_skip);
-
-    console.log(index_skip);
+    setSimulationData(output);
   };
 
   useEffect(() => {
     computeSimulation();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [force, setForce] = useState({

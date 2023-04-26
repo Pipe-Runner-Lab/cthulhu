@@ -12,8 +12,6 @@ const useStore = create((set) => ({
   setIsComputing: (isComputing) => set({ isComputing }),
   simulationData: null,
   setSimulationData: (simulationData) => set({ simulationData }),
-  indexSkip: null,
-  setIndexSkip: (indexSkip) => set({ indexSkip }),
   animating: false,
   setAnimating: (animating) => set({ animating }),
   animationProgress: 0,
