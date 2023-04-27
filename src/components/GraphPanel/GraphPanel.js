@@ -4,6 +4,8 @@ import useStore from "../../store";
 import { MeasurementGraph } from "./graphs/MeasurementGraph";
 import Select from "react-select";
 import { EstimateGraph } from "./graphs/EstimateGraph";
+import { EstimateLocalGraph } from "./graphs/EstimateLocalGraph";
+import { EstimateFault } from "./graphs/EstimateFault";
 
 const panelVariants = {
   open: {
@@ -22,8 +24,10 @@ const options = [
 ];
 
 export default function GraphPanel() {
-  const [selectedOption, setSelectedOption] = useState("sensor");
+  const [selectedOption, setSelectedOption] = useState(options[0]);
   const isMenuOpen = useStore((state) => state.isMenuOpen);
+
+  const selectedOptionValue = selectedOption.value;
 
   return (
     <motion.div
@@ -41,13 +45,15 @@ export default function GraphPanel() {
           value={selectedOption}
           defaultValue={selectedOption}
           onChange={(option) => {
-            setSelectedOption(option.value);
+            setSelectedOption(option);
           }}
           options={options}
         />
       </div>
-      {selectedOption === "sensor" && <MeasurementGraph />}
-      {selectedOption === "estimated-global" && <EstimateGraph />}
+      {selectedOptionValue === "sensor" && <MeasurementGraph />}
+      {selectedOptionValue === "estimated-global" && <EstimateGraph />}
+      {selectedOptionValue === "estimated-local" && <EstimateLocalGraph />}
+      {selectedOptionValue === "estimated-fault" && <EstimateFault />}
     </motion.div>
   );
 }

@@ -1,50 +1,11 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import useStore from "../../store";
-import { useWorker, WORKER_STATUS } from "@koale/useworker";
 import { QuadraticBezierLine } from "@react-three/drei";
+import { createWorkerFactory, useWorker } from "@shopify/react-web-worker";
 
-const processData = (data) => {
-  const SKIP_FACTOR = 25;
-  const SCALE_FACTOR = 100;
-
-  let position = [];
-  const estimatedPosition = [];
-  const length = data.get("Time").length;
-
-  for (let i = SKIP_FACTOR * 2; i < length; i += 2 * SKIP_FACTOR) {
-    position.push([
-      [
-        data.get("Position (X)")[i - 2 * SKIP_FACTOR] * SCALE_FACTOR,
-        data.get("Position (Y)")[i - 2 * SKIP_FACTOR] * SCALE_FACTOR,
-      ],
-      [
-        data.get("Position (X)")[i - SKIP_FACTOR] * SCALE_FACTOR,
-        data.get("Position (Y)")[i - SKIP_FACTOR] * SCALE_FACTOR,
-      ],
-      [
-        data.get("Position (X)")[i] * SCALE_FACTOR,
-        data.get("Position (Y)")[i] * SCALE_FACTOR,
-      ],
-    ]);
-
-    estimatedPosition.push([
-      [
-        data.get("Position (X`)")[i - 2 * SKIP_FACTOR] * SCALE_FACTOR,
-        data.get("Position (Y`)")[i - 2 * SKIP_FACTOR] * SCALE_FACTOR,
-      ],
-      [
-        data.get("Position (X`)")[i - SKIP_FACTOR] * SCALE_FACTOR,
-        data.get("Position (Y`)")[i - SKIP_FACTOR] * SCALE_FACTOR,
-      ],
-      [
-        data.get("Position (X`)")[i] * SCALE_FACTOR,
-        data.get("Position (Y`)")[i] * SCALE_FACTOR,
-      ],
-    ]);
-  }
-
-  return { position, estimatedPosition };
-};
+const createWorker = createWorkerFactory(() =>
+  import("../../workers/data-processor")
+);
 
 export const LinePlotter = memo(() => {
   const [data, setData] = useState({
@@ -53,22 +14,21 @@ export const LinePlotter = memo(() => {
   });
 
   const simulationData = useStore((state) => state.simulationData);
-  const [processDataWorker, controller] = useWorker(processData, {
-    autoTerminate: true,
-  });
+
+  const processDataWorker = useWorker(createWorker);
+  const isProcess = useRef(false);
 
   useEffect(() => {
-    if (simulationData && controller.status === WORKER_STATUS.PENDING) {
-      console.log(simulationData === null, controller.status);
-      processDataWorker(simulationData).then((result) => {
+    (async () => {
+      if (processDataWorker && simulationData && !isProcess.current) {
+        isProcess.current = true;
+        const result = await processDataWorker.generateTrails(simulationData);
         setData(result);
-        controller.kill();
-        controller.status = WORKER_STATUS.IDLE;
-      });
-    }
+        isProcess.current = false;
+      }
+    })();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [simulationData]);
-
-  console.log(controller.status);
 
   return (
     <>

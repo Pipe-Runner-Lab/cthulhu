@@ -6,7 +6,6 @@
   "dependencies": {
     "@ant-design/charts": "^1.4.2",
     "@ant-design/icons": "^4.8.0",
-    "@koale/useworker": "^4.0.2",
     "@react-three/drei": "^9.58.1",
     "@react-three/fiber": "^8.12.0",
     "@shopify/react-web-worker": "^5.0.11",

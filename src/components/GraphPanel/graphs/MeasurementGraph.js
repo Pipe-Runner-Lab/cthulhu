@@ -1,65 +1,31 @@
-import React, { useEffect, useState, memo } from "react";
+import React, { useEffect, useState, memo, useRef } from "react";
 import { Line } from "@ant-design/plots";
 import useStore from "../../../store";
-import { useWorker } from "@koale/useworker";
+import { createWorkerFactory, useWorker } from "@shopify/react-web-worker";
 
-const processData = (data, simplify = true) => {
-  let result = [];
-  const length = data.get("Time").length;
-
-  for (let i = 0; i < length; i += simplify ? 25 : 1) {
-    result.push({
-      time: data.get("Time")[i],
-      value: data.get("Position (X)")[i],
-      category: "x",
-    });
-    result.push({
-      time: data.get("Time")[i],
-      value: data.get("Position (Y)")[i],
-      category: "y",
-    });
-    result.push({
-      time: data.get("Time")[i],
-      value: data.get("Position (Sai)")[i],
-      category: "Ψ",
-    });
-    result.push({
-      time: data.get("Time")[i],
-      value: data.get("Vel (u)")[i],
-      category: "u",
-    });
-    result.push({
-      time: data.get("Time")[i],
-      value: data.get("Vel (v)")[i],
-      category: "v",
-    });
-    result.push({
-      time: data.get("Time")[i],
-      value: data.get("yaw rate (r)")[i],
-      category: "r",
-    });
-  }
-
-  return result;
-};
+const createWorker = createWorkerFactory(() =>
+  import("../../../workers/data-processor")
+);
 
 export const MeasurementGraph = memo(() => {
   const [data, setData] = useState([]);
 
   const simulationData = useStore((state) => state.simulationData);
-  const [processDataWorker] = useWorker(processData, {
-    autoTerminate: true,
-  });
 
-
+  const processDataWorker = useWorker(createWorker);
+  const isProcess = useRef(false);
 
   useEffect(() => {
-    if (simulationData) {
-      processDataWorker(simulationData).then((result) => {
+    (async () => {
+      if (processDataWorker && simulationData && !isProcess.current) {
+        isProcess.current = true;
+        const result = await processDataWorker.processMeasurements(simulationData);
         setData(result);
-      });
-    }
-  }, [simulationData, processDataWorker]);
+        isProcess.current = false;
+      }
+    })();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [simulationData]);
 
   const config = {
     data,

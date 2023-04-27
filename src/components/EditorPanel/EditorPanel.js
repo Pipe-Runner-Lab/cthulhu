@@ -51,6 +51,7 @@ function EditorPanel() {
     if (error) console.error(error);
 
     setSimulationData(output);
+    console.log(output);
   };
 
   useEffect(() => {
