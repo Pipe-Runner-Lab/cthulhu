@@ -72,7 +72,7 @@ function EditorPanel() {
         type: "tween",
       }}
       initial="closed"
-      className="absolute flex flex-col w-1/4 min-w-[360px] max-w-md bg-white rounded-md shadow-md min-w-sm top-2 right-2 backdrop-blur-sm bg-opacity-70"
+      className="absolute flex flex-col w-[340px] bg-white rounded-md shadow-md min-w-sm top-2 right-2 backdrop-blur-sm bg-opacity-70"
     >
       <AnimatePresence>
         {!isMenuOpen && (

@@ -6,11 +6,13 @@ import Marker from "../../objects/Marker";
 import { useFrame } from "@react-three/fiber";
 import useStore from "../../store";
 import { useRef } from "react";
+import { LinePlotter } from "../LinePlotter/LinePlotter";
 
 const SCALE_FACTOR = 100;
 
 export default function Scene() {
   const shipRef = useRef();
+  const shipGhostRef = useRef();
   const dataCounterIndex = useRef(0);
 
   const simulationData = useStore((state) => state.simulationData);
@@ -18,16 +20,23 @@ export default function Scene() {
   const setAnimating = useStore((state) => state.setAnimating);
   const setAnimationProgress = useStore((state) => state.setAnimationProgress);
 
-  console.log(simulationData);
-
   useFrame(() => {
     if (animating && simulationData) {
       if (dataCounterIndex.current < simulationData.get("Time").length) {
         // x and z are swapped because of co-ordinate system
         shipRef.current.position.z =
-          simulationData.get("Position (X)")[dataCounterIndex.current] * SCALE_FACTOR;
-        shipRef.current.position.x = simulationData.get("Position (Y)")[dataCounterIndex.current] * SCALE_FACTOR;
-        shipRef.current.rotation.y = simulationData.get("Position (Sai)")[dataCounterIndex.current]; // TODO: Is it in radians?
+          simulationData.get("Position (X)")[dataCounterIndex.current] *
+          SCALE_FACTOR;
+        shipRef.current.position.x =
+          simulationData.get("Position (Y)")[dataCounterIndex.current] *
+          SCALE_FACTOR;
+        shipRef.current.rotation.y =
+          simulationData.get("Position (Sai)")[dataCounterIndex.current]; // TODO: Is it in radians?
+
+        // shipGhostRef.current.position.z =
+        //   (simulationData.get("Position (X`)")[dataCounterIndex.current] ?? 0 * SCALE_FACTOR) + 50;
+        // shipGhostRef.current.position.x = (simulationData.get("Position (Y`)")[dataCounterIndex.current] ?? 0) * SCALE_FACTOR + 50;
+        // shipGhostRef.current.rotation.y = (simulationData.get("Position (Sai`)")[dataCounterIndex.current] ?? 0); // TODO: Is it in radians?
 
         dataCounterIndex.current += 1;
 
@@ -54,7 +63,10 @@ export default function Scene() {
       <Ocean />
 
       <Ship shipRef={shipRef} />
+      {/* <Ship shipRef={shipGhostRef} ghost /> */}
       <Marker />
+
+      <LinePlotter />
     </>
   );
 }

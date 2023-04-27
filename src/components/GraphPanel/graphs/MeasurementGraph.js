@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import { Line } from "@ant-design/plots";
 import useStore from "../../../store";
 import { useWorker } from "@koale/useworker";
@@ -43,11 +43,15 @@ const processData = (data, simplify = true) => {
   return result;
 };
 
-export function MeasurementGraph() {
+export const MeasurementGraph = memo(() => {
   const [data, setData] = useState([]);
 
   const simulationData = useStore((state) => state.simulationData);
-  const [processDataWorker] = useWorker(processData);
+  const [processDataWorker] = useWorker(processData, {
+    autoTerminate: true,
+  });
+
+
 
   useEffect(() => {
     if (simulationData) {
@@ -75,8 +79,10 @@ export function MeasurementGraph() {
   };
 
   return (
-    <div className="p-2 bg-white rounded-md">
-      <Line {...config} />
+    <div className="flex-1 p-2 bg-white rounded-md">
+      <div className="h-full">
+        <Line {...config} />
+      </div>
     </div>
   );
-}
+});
