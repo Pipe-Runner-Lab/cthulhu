@@ -1,4 +1,4 @@
-import shipModel from "../../assets/ship.gltf";
+import shipModel from "../../assets/ship-light.gltf";
 import { useLoader } from "@react-three/fiber";
 import { useEffect, useMemo } from "react";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
