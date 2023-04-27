@@ -1,6 +1,6 @@
 import Sky from "../../objects/Sky";
 import Ocean from "../../objects/Ocean";
-import Ship from "../../objects/Ship";
+import { GhostShip, ShipLight } from "../../objects/Ship";
 import Lights from "../../objects/Lights";
 import Marker from "../../objects/Marker";
 import { useFrame } from "@react-three/fiber";
@@ -33,10 +33,14 @@ export default function Scene() {
         shipRef.current.rotation.y =
           simulationData.get("Position (Sai)")[dataCounterIndex.current]; // TODO: Is it in radians?
 
-        // shipGhostRef.current.position.z =
-        //   (simulationData.get("Position (X`)")[dataCounterIndex.current] ?? 0 * SCALE_FACTOR) + 50;
-        // shipGhostRef.current.position.x = (simulationData.get("Position (Y`)")[dataCounterIndex.current] ?? 0) * SCALE_FACTOR + 50;
-        // shipGhostRef.current.rotation.y = (simulationData.get("Position (Sai`)")[dataCounterIndex.current] ?? 0); // TODO: Is it in radians?
+        shipGhostRef.current.position.z =
+          (simulationData.get("Position (X`)")[dataCounterIndex.current] ?? 0) *
+          SCALE_FACTOR;
+        shipGhostRef.current.position.x =
+          (simulationData.get("Position (Y`)")[dataCounterIndex.current] ?? 0) *
+          SCALE_FACTOR;
+        shipGhostRef.current.rotation.y =
+          simulationData.get("Position (Sai`)")[dataCounterIndex.current] ?? 0; // TODO: Is it in radians?
 
         dataCounterIndex.current += 1;
 
@@ -62,8 +66,8 @@ export default function Scene() {
       <Sky />
       <Ocean />
 
-      <Ship shipRef={shipRef} />
-      {/* <Ship shipRef={shipGhostRef} ghost /> */}
+      <ShipLight shipRef={shipRef} />
+      <GhostShip shipRef={shipGhostRef} />
       <Marker />
 
       <LinePlotter />
