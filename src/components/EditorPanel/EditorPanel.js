@@ -5,23 +5,14 @@ import { HiOutlineMenu as OpenIcon } from "react-icons/hi";
 import PrimaryHeader from "./components/PrimaryHeader";
 import { PyodideContext } from "../../providers/Pyodide";
 import InputControls from "./components/InputControls";
-import Input from "../Input/Input";
 import { PlayerControls } from "./components/PlayerControls";
 import {
   FaPlay as PlayIcon,
   FaPause as PauseIcon,
   FaStop as ResetIcon,
 } from "react-icons/fa";
-import {
-  IoTelescopeOutline as TopDownIcon,
-  IoExpandOutline as PanIcon,
-  IoVideocamOutline as PerspectiveIcon,
-} from "react-icons/io5";
-import { GoGraph as GraphIcon } from "react-icons/go";
-import { GiPathDistance as PathIcon } from "react-icons/gi";
 import script from "../../python/simulator.py";
 import { extractScriptText } from "../../utils/script-text";
-import { Button } from "./components/Button";
 
 const menuVariants = {
   open: {
@@ -42,12 +33,6 @@ function EditorPanel() {
   const animating = useStore((state) => state.animating);
   const setAnimating = useStore((state) => state.setAnimating);
   const isComputing = useStore((state) => state.isComputing);
-  const cameraType = useStore((state) => state.cameraType);
-  const toggleCameraType = useStore((state) => state.toggleCameraType);
-  const showGraph = useStore((state) => state.showGraph);
-  const toggleShowGraph = useStore((state) => state.toggleShowGraph);
-  const showPath = useStore((state) => state.showPath);
-  const toggleShowPath = useStore((state) => state.toggleShowPath);
 
   const computeSimulation = async () => {
     setSimulationData(null);
@@ -134,27 +119,14 @@ function EditorPanel() {
         )}
       </AnimatePresence>
       {/* Primary Panel content */}
-      <div className="w-full p-2">
+      <div className="w-full pt-2 pl-2 pr-2">
         <PrimaryHeader />
       </div>
-
-      <div className="h-[1px] w-auto mx-2 bg-gray-300" />
 
       <div className="flex flex-col flex-1 p-2 space-y-2 overflow-auto">
         <div className="flex flex-col p-2 space-y-2 border border-gray-400 border-solid rounded-md">
           <div className="flex items-center justify-center w-full py-1 rounded-sm bg-violet-300">
             Simulation Controls
-          </div>
-          <div className="">
-            <Input
-              value={force.x}
-              onChange={(value) => setForce({ x: value, ...force })}
-            />
-
-            <Input
-              value={force.y}
-              onChange={(value) => setForce({ y: value, ...force })}
-            />
           </div>
 
           <InputControls
@@ -163,26 +135,6 @@ function EditorPanel() {
           />
 
           <PlayerControls isDisabled={isComputing} />
-        </div>
-
-        <div className="flex flex-col p-2 space-y-2 border border-gray-400 border-solid rounded-md">
-          <div className="flex space-x-1">
-            <Button onClick={toggleCameraType}>
-              {cameraType === "pan" && <PanIcon size={26} color="black" />}
-              {cameraType === "top-down" && (
-                <TopDownIcon size={26} color="black" />
-              )}
-              {cameraType === "perspective" && (
-                <PerspectiveIcon size={26} color="black" />
-              )}
-            </Button>
-            <Button onClick={toggleShowGraph}>
-              <GraphIcon size={26} color={showGraph ? "black" : "grey"} />
-            </Button>
-            <Button onClick={toggleShowPath}>
-              <PathIcon size={26} color={showPath ? "black" : "grey"} />
-            </Button>
-          </div>
         </div>
       </div>
     </motion.div>

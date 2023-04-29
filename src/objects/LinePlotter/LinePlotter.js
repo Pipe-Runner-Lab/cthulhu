@@ -7,7 +7,7 @@ const createWorker = createWorkerFactory(() =>
   import("../../workers/data-processor")
 );
 
-export const LinePlotter = memo(() => {
+export const LinePlotter = memo(({ showPrediction }) => {
   const [data, setData] = useState({
     position: [],
     estimatedPosition: [],
@@ -27,7 +27,7 @@ export const LinePlotter = memo(() => {
         isProcess.current = false;
       }
     })();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [simulationData]);
 
   return (
@@ -44,20 +44,21 @@ export const LinePlotter = memo(() => {
           key={index}
         />
       ))}
-      {data.estimatedPosition.map((line, index) =>
-        !line[0][1] ? null : (
-          <QuadraticBezierLine
-            start={[line[0][1], 0.1, line[0][0]]}
-            mid={[line[1][1], 0.1, line[1][0]]}
-            end={[line[2][1], 0.1, line[2][0]]}
-            segments={3}
-            color={"#ed3e5e"}
-            lineWidth={1}
-            dashed={true}
-            key={index}
-          />
-        )
-      )}
+      {showPrediction &&
+        data.estimatedPosition.map((line, index) =>
+          !line[0][1] ? null : (
+            <QuadraticBezierLine
+              start={[line[0][1], 0.1, line[0][0]]}
+              mid={[line[1][1], 0.1, line[1][0]]}
+              end={[line[2][1], 0.1, line[2][0]]}
+              segments={3}
+              color={"#ed3e5e"}
+              lineWidth={1}
+              dashed={true}
+              key={index}
+            />
+          )
+        )}
     </>
   );
 });

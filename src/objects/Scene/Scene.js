@@ -23,6 +23,7 @@ export default function Scene() {
   const setAnimationProgress = useStore((state) => state.setAnimationProgress);
   const isComputing = useStore((state) => state.isComputing);
   const showPath = useStore((state) => state.showPath);
+  const showPrediction = useStore((state) => state.showPrediction);
 
   useFrame(() => {
     if (animating && simulationData) {
@@ -37,14 +38,17 @@ export default function Scene() {
         shipRef.current.rotation.y =
           simulationData.get("Position (Sai)")[dataCounterIndex.current]; // TODO: Is it in radians?
 
-        shipGhostRef.current.position.z =
-          (simulationData.get("Position (X`)")[dataCounterIndex.current] ?? 0) *
-          SCALE_FACTOR;
-        shipGhostRef.current.position.x =
-          (simulationData.get("Position (Y`)")[dataCounterIndex.current] ?? 0) *
-          SCALE_FACTOR;
-        shipGhostRef.current.rotation.y =
-          simulationData.get("Position (Sai`)")[dataCounterIndex.current] ?? 0; // TODO: Is it in radians?
+        if (shipGhostRef.current) {
+          shipGhostRef.current.position.z =
+            (simulationData.get("Position (X`)")[dataCounterIndex.current] ??
+              0) * SCALE_FACTOR;
+          shipGhostRef.current.position.x =
+            (simulationData.get("Position (Y`)")[dataCounterIndex.current] ??
+              0) * SCALE_FACTOR;
+          shipGhostRef.current.rotation.y =
+            simulationData.get("Position (Sai`)")[dataCounterIndex.current] ??
+            0; // TODO: Is it in radians?
+        }
 
         dataCounterIndex.current += 1;
 
@@ -73,10 +77,12 @@ export default function Scene() {
       <Ocean />
 
       <ShipLight thirdPersonGoalRef={thirdPersonGoalRef} shipRef={shipRef} />
-      <GhostShip shipRef={shipGhostRef} />
+      {showPrediction && <GhostShip shipRef={shipGhostRef} />}
       <Marker />
 
-      {!isComputing && showPath && <LinePlotter />}
+      {!isComputing && showPath && (
+        <LinePlotter showPrediction={showPrediction} />
+      )}
     </>
   );
 }

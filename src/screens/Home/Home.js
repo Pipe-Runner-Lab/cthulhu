@@ -20,7 +20,7 @@ function Home() {
 
           {/* Utils */}
           <Controls />
-          <Gizmo />
+          {/* <Gizmo /> */}
         </Canvas>
 
         <EditorPanel />

@@ -1,4 +1,7 @@
-import { OrthographicCamera, PerspectiveCamera } from "@react-three/drei";
+import {
+  OrthographicCamera,
+  PerspectiveCamera,
+} from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import React, { useEffect, useRef } from "react";
 import useStore from "../../store";
@@ -23,7 +26,6 @@ export default function Cameras({ shipRef, thirdPersonGoalRef }) {
   const perspectiveCameraRef = useRef(null);
 
   const cameraType = useStore((state) => state.cameraType);
-  // const animating = useStore((state) => state.animating);
 
   // Reset perspective camera position when switching to pan camera
   useEffect(() => {
@@ -57,11 +59,15 @@ export default function Cameras({ shipRef, thirdPersonGoalRef }) {
         perspectiveCameraRef.current.lookAt(shipRef.current.position);
       }
 
-      // topDownCameraRef.current.position.x = shipRef.current.position.x;
-      // topDownCameraRef.current.position.z = shipRef.current.position.z;
-
-      // console.log(shipRef.current.position.x);
-      // topDownCameraRef.current.lookAt(shipRef.current.position.x, 0, shipRef.current.position.z);
+      if (cameraType === "top-down") {
+        topDownCameraRef.current.position.x = shipRef.current.position.x;
+        topDownCameraRef.current.position.z = shipRef.current.position.z;
+        topDownCameraRef.current.lookAt(
+          shipRef.current.position.x,
+          0,
+          shipRef.current.position.z
+        );
+      }
     }
   });
 

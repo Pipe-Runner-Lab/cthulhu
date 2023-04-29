@@ -37,6 +37,12 @@ const useStore = create((set) => ({
       showPath: !state.showPath,
     }));
   },
+  showPrediction: false,
+  toggleShowPrediction: () => {
+    set((state) => ({
+      showPrediction: !state.showPrediction,
+    }));
+  }
 }));
 
 export default useStore;

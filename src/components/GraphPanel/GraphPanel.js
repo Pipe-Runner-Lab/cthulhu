@@ -39,7 +39,7 @@ export default function GraphPanel() {
         type: "tween",
       }}
       initial="closed"
-      className="absolute flex flex-col w-3/4 max-w-[1120px] p-2 bg-white rounded-md shadow-md min-w-sm top-2 bottom-2 left-2 backdrop-blur-sm bg-opacity-70"
+      className="absolute flex flex-col w-3/4 max-w-[1320px] p-2 bg-white rounded-md shadow-md min-w-sm top-2 bottom-2 left-2 backdrop-blur-sm bg-opacity-70"
     >
       <div className="mb-2">
         <Select
