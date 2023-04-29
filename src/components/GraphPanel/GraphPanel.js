@@ -26,13 +26,14 @@ const options = [
 export default function GraphPanel() {
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const isMenuOpen = useStore((state) => state.isMenuOpen);
+  const showGraph = useStore((state) => state.showGraph);
 
   const selectedOptionValue = selectedOption.value;
 
   return (
     <motion.div
       variants={panelVariants}
-      animate={isMenuOpen ? "open" : "closed"}
+      animate={isMenuOpen && showGraph ? "open" : "closed"}
       transition={{
         duration: 0.7,
         type: "tween",

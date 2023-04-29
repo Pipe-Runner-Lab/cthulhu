@@ -7,7 +7,7 @@ import {
 } from "react-icons/fa";
 import useStore from "../../../store";
 
-export function PlayerControls() {
+export function PlayerControls({ isDisabled }) {
   const animating = useStore((state) => state.animating);
   const setAnimating = useStore((state) => state.setAnimating);
   const animationProgress = useStore((state) => state.animationProgress);
@@ -15,18 +15,24 @@ export function PlayerControls() {
   return (
     <div className="flex items-center justify-start space-x-2">
       <Button
+        disabled={isDisabled}
         onClick={() => {
           setAnimating(!animating);
         }}
       >
-        {animating ? <PauseIcon size={24} /> : <PlayIcon size={24} />}
+        {animating ? (
+          <PauseIcon size={24} color={isDisabled ? "grey" : "black"} />
+        ) : (
+          <PlayIcon size={24} color={isDisabled ? "grey" : "black"} />
+        )}
       </Button>
       <Button
+        disabled={isDisabled}
         onClick={() => {
           setAnimating(false);
         }}
       >
-        <ResetIcon size={24} />
+        <ResetIcon size={24} color={isDisabled ? "grey" : "black"} />
       </Button>
       <div className="w-full bg-blue-300 rounded-full h-1.5 mt-1 mb-2">
         <div

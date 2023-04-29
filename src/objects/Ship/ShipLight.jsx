@@ -8,11 +8,15 @@ import shipModel from "../../assets/ship-light.gltf";
 import React from 'react'
 import { useGLTF } from '@react-three/drei'
 
-export function ShipLight({shipRef}) {
+export function ShipLight({shipRef, thirdPersonGoalRef}) {
   const { nodes, materials } = useGLTF(shipModel)
   
   return (
     <group scale={0.05} ref={shipRef} dispose={null}>
+      <mesh ref={thirdPersonGoalRef} position={[0, 700, -800]}>
+         {/* <boxGeometry args={[50, 50, 50]} />
+         <meshStandardMaterial color={"red"} /> */}
+      </mesh>
       <mesh geometry={nodes.Cube141.geometry} material={materials['White.001']} position={[2.88, 58.75, 5.34]} />
       <group position={[2.86, 49.13, 8.84]}>
         <mesh geometry={nodes.Cube014.geometry} material={materials['White.001']} />

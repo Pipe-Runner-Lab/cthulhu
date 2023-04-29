@@ -1,5 +1,8 @@
 import { OrthographicCamera, PerspectiveCamera } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import React, { useEffect, useRef } from "react";
+import useStore from "../../store";
+import * as THREE from "three";
 
 var w = window.innerWidth;
 var h = window.innerHeight;
@@ -13,26 +16,64 @@ const _viewport = {
   bottom: -viewSize / 2,
 };
 
-export default function Cameras() {
+const tempVector = new THREE.Vector3();
+
+export default function Cameras({ shipRef, thirdPersonGoalRef }) {
   const topDownCameraRef = useRef(null);
+  const perspectiveCameraRef = useRef(null);
 
-  // useHelper(topDownCameraRef && topDownCameraRef, CameraHelper);
+  const cameraType = useStore((state) => state.cameraType);
+  // const animating = useStore((state) => state.animating);
 
+  // Reset perspective camera position when switching to pan camera
   useEffect(() => {
-    if (topDownCameraRef.current != null) {
-      topDownCameraRef.current.lookAt(0, 0, 0);
+    if (
+      perspectiveCameraRef.current != null &&
+      shipRef.current != null &&
+      cameraType === "pan"
+    ) {
+      perspectiveCameraRef.current.lookAt(0, 0, 0);
+      perspectiveCameraRef.current.position.set(
+        shipRef.current.position.x + 45,
+        26,
+        shipRef.current.position.z + 45
+      );
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cameraType]);
+
+  useFrame(() => {
+    if (
+      shipRef.current != null &&
+      perspectiveCameraRef.current != null &&
+      topDownCameraRef.current != null
+    ) {
+      if (cameraType === "perspective") {
+        tempVector.setFromMatrixPosition(
+          thirdPersonGoalRef.current.matrixWorld
+        );
+
+        perspectiveCameraRef.current.position.lerp(tempVector, 0.3);
+        perspectiveCameraRef.current.lookAt(shipRef.current.position);
+      }
+
+      // topDownCameraRef.current.position.x = shipRef.current.position.x;
+      // topDownCameraRef.current.position.z = shipRef.current.position.z;
+
+      // console.log(shipRef.current.position.x);
+      // topDownCameraRef.current.lookAt(shipRef.current.position.x, 0, shipRef.current.position.z);
+    }
+  });
 
   return (
     <>
       <PerspectiveCamera
-        // ref={defaultCameraRef}
         position={[45, 26, 45]}
         fov={35}
         far={500}
         near={1}
-        makeDefault={true}
+        makeDefault={cameraType === "perspective" || cameraType === "pan"}
+        ref={perspectiveCameraRef}
       />
       <OrthographicCamera
         left={_viewport.left}
@@ -44,7 +85,7 @@ export default function Cameras() {
         far={9}
         near={1}
         ref={topDownCameraRef}
-        // makeDefault={true}
+        makeDefault={cameraType === "top-down"}
       />
     </>
   );

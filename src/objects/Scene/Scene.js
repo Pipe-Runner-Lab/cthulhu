@@ -2,6 +2,7 @@ import Sky from "../../objects/Sky";
 import Ocean from "../../objects/Ocean";
 import { GhostShip, ShipLight } from "../../objects/Ship";
 import Lights from "../../objects/Lights";
+import Cameras from "../../objects/Cameras";
 import Marker from "../../objects/Marker";
 import { useFrame } from "@react-three/fiber";
 import useStore from "../../store";
@@ -13,12 +14,15 @@ const SCALE_FACTOR = 100;
 export default function Scene() {
   const shipRef = useRef();
   const shipGhostRef = useRef();
+  const thirdPersonGoalRef = useRef();
   const dataCounterIndex = useRef(0);
 
   const simulationData = useStore((state) => state.simulationData);
   const animating = useStore((state) => state.animating);
   const setAnimating = useStore((state) => state.setAnimating);
   const setAnimationProgress = useStore((state) => state.setAnimationProgress);
+  const isComputing = useStore((state) => state.isComputing);
+  const showPath = useStore((state) => state.showPath);
 
   useFrame(() => {
     if (animating && simulationData) {
@@ -61,16 +65,18 @@ export default function Scene() {
 
   return (
     <>
+      <Cameras shipRef={shipRef} thirdPersonGoalRef={thirdPersonGoalRef} />
+
       <Lights />
 
       <Sky />
       <Ocean />
 
-      <ShipLight shipRef={shipRef} />
+      <ShipLight thirdPersonGoalRef={thirdPersonGoalRef} shipRef={shipRef} />
       <GhostShip shipRef={shipGhostRef} />
       <Marker />
 
-      <LinePlotter />
+      {!isComputing && showPath && <LinePlotter />}
     </>
   );
 }

@@ -11,6 +11,7 @@ export const MeasurementGraph = memo(() => {
   const [data, setData] = useState([]);
 
   const simulationData = useStore((state) => state.simulationData);
+  const isComputing = useStore((state) => state.isComputing);
 
   const processDataWorker = useWorker(createWorker);
   const isProcess = useRef(false);
@@ -19,12 +20,14 @@ export const MeasurementGraph = memo(() => {
     (async () => {
       if (processDataWorker && simulationData && !isProcess.current) {
         isProcess.current = true;
-        const result = await processDataWorker.processMeasurements(simulationData);
+        const result = await processDataWorker.processMeasurements(
+          simulationData
+        );
         setData(result);
         isProcess.current = false;
       }
     })();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [simulationData]);
 
   const config = {
@@ -43,6 +46,16 @@ export const MeasurementGraph = memo(() => {
     },
     interactions: [{ type: "brush" }],
   };
+
+  if (isComputing) {
+    return (
+      <div className="flex-1 p-2 bg-white rounded-md">
+        <div className="h-full flex justify-center items-center">
+          Computing...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1 p-2 bg-white rounded-md">
