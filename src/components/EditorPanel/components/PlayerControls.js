@@ -17,10 +17,10 @@ export function PlayerControls({ isDisabled }) {
       <Button
         disabled={isDisabled}
         onClick={() => {
-          setAnimating(!animating);
+          setAnimating(animating === "playing" ? "paused" : "playing");
         }}
       >
-        {animating ? (
+        {animating === 'playing' ? (
           <PauseIcon size={24} color={isDisabled ? "grey" : "black"} />
         ) : (
           <PlayIcon size={24} color={isDisabled ? "grey" : "black"} />
@@ -29,7 +29,7 @@ export function PlayerControls({ isDisabled }) {
       <Button
         disabled={isDisabled}
         onClick={() => {
-          setAnimating(false);
+          setAnimating('stopped');
         }}
       >
         <ResetIcon size={24} color={isDisabled ? "grey" : "black"} />

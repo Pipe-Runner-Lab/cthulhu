@@ -54,9 +54,19 @@ const sortChips = (chips) => {
 };
 
 const DefaultValues = {
-  time: "180",
-  force: ["0,1,-1", "30,-1,1"],
-  theta: ["0,0,0", "100,0.2,0.3", "150,0,0"],
+  time: "60",
+  force: [
+    "0,0.7,0",
+    "5,0.5,0.5",
+    "7,-0.2,-0.2",
+    "10,0.3,0.01",
+    "30,0.1,-0.2",
+    "35,0.6,0",
+    "40,0.2,0.3",
+    "45,0.4,0",
+    "50,0.1,0.15",
+  ],
+  theta: ["20,0.2,0.3", "40,0,0.1", "45,0,0", "55,0,0"],
 };
 
 function convertDataForPyodide(data, sTime) {
@@ -71,12 +81,12 @@ function convertDataForPyodide(data, sTime) {
     }
   }
 
-  if (result[result.length - 1][0] < time) {
-    result.push([time, result[result.length - 1][1]]);
+  if (result.length === 0 || result[0][0] > 0) {
+    result.unshift([0, [0, 0]]);
   }
 
-  if (result[0][0] > 0) {
-    result.unshift([0, [0, 0]]);
+  if (result[result.length - 1][0] < time) {
+    result.push([time, result[result.length - 1][1]]);
   }
 
   return result;
@@ -163,6 +173,7 @@ function SimulationControls({ isDisabled }) {
     const context = {
       force: processedData[0],
       theta: processedData[1],
+      time: parseFloat(time),
     };
 
     const {
@@ -255,7 +266,7 @@ function SimulationControls({ isDisabled }) {
             "bg-gray-300 text-gray-600": isDisabled,
           })}
         >
-          Compute
+          {isDisabled ? "Please Wait..." : "Compute"}
         </button>
       </div>
     </div>

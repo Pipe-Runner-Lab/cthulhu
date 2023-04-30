@@ -1,7 +1,7 @@
 import numpy as np
 from numpy.linalg import inv
 import math
-from js import force, theta
+from js import force, theta, time
 
 # State Integrators
 class RK4_Integrator:
@@ -210,10 +210,10 @@ def run():
     X_0 = np.array([0., 0., 0., 0., 0., 0.]).reshape((-1, 1))
     t_0 = 0
     t = t_0
-    T = 180.0
+    T = float(time)
     dt = 0.016
     U = np.array(get_force(t_0)).reshape((-1, 1))
-    state_time = []
+    # state_time = []
     state_integrator = RK4_Integrator(X_0, t_0, T, dt, dx)
     
     # AEKF Init

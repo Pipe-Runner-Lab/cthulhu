@@ -40,7 +40,7 @@ export const LinePlotter = memo(({ showPrediction }) => {
           segments={3}
           color={"#ed873e"}
           lineWidth={1}
-          dashed={true}
+          dashed={false}
           key={index}
         />
       ))}

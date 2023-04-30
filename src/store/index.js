@@ -14,7 +14,7 @@ const useStore = create((set) => ({
   setIsComputing: (isComputing) => set({ isComputing }),
   simulationData: null,
   setSimulationData: (simulationData) => set({ simulationData }),
-  animating: false,
+  animating: 'paused', // "playing" or "paused" or "stopped"
   setAnimating: (animating) => set({ animating }),
   animationProgress: 0,
   setAnimationProgress: (animationProgress) => set({ animationProgress }),

@@ -30,7 +30,7 @@ function EditorPanel() {
   const isComputing = useStore((state) => state.isComputing);
 
   const onReset = () => {
-    setAnimating(false);
+    setAnimating('stopped');
   };
 
   return (
@@ -63,10 +63,10 @@ function EditorPanel() {
               exit={{ opacity: 0, transition: { duration: 0.3 } }}
               className="shadow-md bg-gray-300 w-10 h-10 rounded-md absolute top-[0.5rem] left-0 translate-x-[calc(-100%-1rem)] translate-y-[calc(100%+1rem)] flex items-center justify-center"
               onClick={() => {
-                setAnimating(!animating);
+                setAnimating(animating === 'playing' ? 'paused' : 'playing');
               }}
             >
-              {animating ? (
+              {animating === 'playing' ? (
                 <PauseIcon size={26} color={isComputing ? "grey" : "black"} />
               ) : (
                 <PlayIcon size={26} color={isComputing ? "grey" : "black"} />
@@ -78,6 +78,7 @@ function EditorPanel() {
               animate={{ opacity: 1, transition: { duration: 1 } }}
               exit={{ opacity: 0, transition: { duration: 0.3 } }}
               className="shadow-md bg-red-300 w-10 h-10 rounded-md absolute top-[0.5rem] left-0 translate-x-[calc(-100%-1rem)] translate-y-[calc(200%+2rem)] flex items-center justify-center"
+              onClick={onReset}
             >
               <ResetIcon size={26} color={isComputing ? "grey" : "black"} />
             </motion.button>
