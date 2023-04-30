@@ -42,7 +42,7 @@ const useStore = create((set) => ({
     set((state) => ({
       showPrediction: !state.showPrediction,
     }));
-  }
+  },
 }));
 
 export default useStore;

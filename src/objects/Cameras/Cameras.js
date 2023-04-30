@@ -61,6 +61,7 @@ export default function Cameras({ shipRef, thirdPersonGoalRef }) {
 
       if (cameraType === "top-down") {
         topDownCameraRef.current.position.x = shipRef.current.position.x;
+        topDownCameraRef.current.position.y = 8;
         topDownCameraRef.current.position.z = shipRef.current.position.z;
         topDownCameraRef.current.lookAt(
           shipRef.current.position.x,

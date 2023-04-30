@@ -1,9 +1,9 @@
 import { motion, AnimatePresence } from "framer-motion";
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import useStore from "../../store";
 import { HiOutlineMenu as OpenIcon } from "react-icons/hi";
 import PrimaryHeader from "./components/PrimaryHeader";
-import { PyodideContext } from "../../providers/Pyodide";
+
 import InputControls from "./components/InputControls";
 import { PlayerControls } from "./components/PlayerControls";
 import {
@@ -11,8 +11,6 @@ import {
   FaPause as PauseIcon,
   FaStop as ResetIcon,
 } from "react-icons/fa";
-import script from "../../python/simulator.py";
-import { extractScriptText } from "../../utils/script-text";
 
 const menuVariants = {
   open: {
@@ -24,48 +22,16 @@ const menuVariants = {
 };
 
 function EditorPanel() {
-  const { asyncRun } = useContext(PyodideContext);
-
   const isMenuOpen = useStore((state) => state.isMenuOpen);
   const setIsMenuOpen = useStore((state) => state.setIsMenuOpen);
-  const setSimulationData = useStore((state) => state.setSimulationData);
 
   const animating = useStore((state) => state.animating);
   const setAnimating = useStore((state) => state.setAnimating);
   const isComputing = useStore((state) => state.isComputing);
 
-  const computeSimulation = async () => {
-    setSimulationData(null);
-    const code = await extractScriptText(script);
-
-    const context = {
-      force_x: force.x,
-      force_y: force.y,
-    };
-
-    const {
-      variables: { output },
-      error,
-    } = await asyncRun(code, context);
-
-    if (error) console.error(error);
-
-    setSimulationData(output);
-  };
-
-  useEffect(() => {
-    computeSimulation();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const onReset = () => {
     setAnimating(false);
   };
-
-  const [force, setForce] = useState({
-    x: 1,
-    y: -1,
-  });
 
   return (
     <motion.div
@@ -131,7 +97,6 @@ function EditorPanel() {
 
           <InputControls
             isDisabled={isComputing}
-            computeSimulation={computeSimulation}
           />
 
           <PlayerControls isDisabled={isComputing} />

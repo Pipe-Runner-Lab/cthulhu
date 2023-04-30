@@ -1,7 +1,7 @@
 import numpy as np
 from numpy.linalg import inv
 import math
-# from js import force_x, force_y
+from js import force, theta
 
 # State Integrators
 class RK4_Integrator:
@@ -124,17 +124,19 @@ dx(
     U = U
 )
 
-force_array = [
-    [0., [1, -1]],
-    [30., [-1, 1]]
-]
+# force_array = [
+#     [0., [1, -1]],
+#     [30., [-1, 1]]
+# ]
+force_array = force.to_py()
 force_idx = 0
 
-theta_array = [
-    [0., [0., 0.]],
-    [100., [0.2, 0.3]],
-    [150., [0., 0.]],
-]
+# theta_array = [
+#     [0., [0., 0.]],
+#     [100., [0.2, 0.3]],
+#     [150., [0., 0.]],
+# ]
+theta_array = theta.to_py()
 theta_idx = 0
 
 Jf = lambda x,y,psi,u,v,r: (np.array([[0, 0, -u*math.sin(psi) - v*math.cos(psi), math.cos(psi), -math.sin(psi), 0], [0, 0, u*math.cos(psi) - v*math.sin(psi), math.sin(psi), math.cos(psi), 0], [0, 0, 0, 0, 0, 1], [0, 0, 0, -0.162790697674419*u - 0.465116279069767, 1.31007751937984*r, 0.48062015503876*r + 1.31007751937984*v], [0, 0, 0, -0.597432905484247*r + 0.904317386231039*v, 0.904317386231039*u - 0.452887981330222*v - 0.798935239206535, -0.022607934655776*r - 0.597432905484247*u + 0.0464556592765461], [0, 0, 0, -0.904317386231039*r - 4.92998833138856*v, -4.92998833138856*u + 1.01735705950992*v + 1.61355017502917, 0.123249708284714*r - 0.904317386231039*u - 0.285516336056009]]))
@@ -164,23 +166,23 @@ def get_theta(t):
     return theta_array[theta_idx][1]
 
 def log_data(table, x, x_hat, t, theta, theta_hat ):
-    table["Position (X)"].append(x[0][0])
-    table["Position (X`)"].append(None if x_hat is None else x_hat[0][0])
-    table["Position (Y)"].append(x[1][0])
-    table["Position (Y`)"].append(None if x_hat is None else x_hat[1][0])
-    table["Position (Sai)"].append(x[2][0])
-    table["Position (Sai`)"].append(None if x_hat is None else x_hat[2][0])
-    table["Vel (u)"].append(x[3][0])
-    table["Vel (u`)"].append(None if x_hat is None else x_hat[3][0])
-    table["Vel (v)"].append(x[4][0])
-    table["Vel (v`)"].append(None if x_hat is None else x_hat[4][0])
-    table["yaw rate (r)"].append(x[5][0])
-    table["yaw rate (r`)"].append(None if x_hat is None else x_hat[5][0])
-    table["Time"].append(t)
-    table["theta 1"].append(theta[0][0])
-    table["theta 1`"].append(None if theta_hat is None else theta_hat[0][0])
-    table["theta 2"].append(theta[1][0])
-    table["theta 2`"].append(None if theta_hat is None else theta_hat[1][0])
+    table["Position (X)"].append(float(x[0][0]))
+    table["Position (X`)"].append(None if x_hat is None else float(x_hat[0][0]))
+    table["Position (Y)"].append(float(x[1][0]))
+    table["Position (Y`)"].append(None if x_hat is None else float(x_hat[1][0]))
+    table["Position (Sai)"].append(float(x[2][0]))
+    table["Position (Sai`)"].append(None if x_hat is None else float(x_hat[2][0]))
+    table["Vel (u)"].append(float(x[3][0]))
+    table["Vel (u`)"].append(None if x_hat is None else float(x_hat[3][0]))
+    table["Vel (v)"].append(float(x[4][0]))
+    table["Vel (v`)"].append(None if x_hat is None else float(x_hat[4][0]))
+    table["yaw rate (r)"].append(float(x[5][0]))
+    table["yaw rate (r`)"].append(None if x_hat is None else float(x_hat[5][0]))
+    table["Time"].append(float(t))
+    table["theta 1"].append(float(theta[0][0]))
+    table["theta 1`"].append(None if theta_hat is None else float(theta_hat[0][0]))
+    table["theta 2"].append(float(theta[1][0]))
+    table["theta 2`"].append(None if theta_hat is None else float(theta_hat[1][0]))
 
 # AEKF
 def run():
