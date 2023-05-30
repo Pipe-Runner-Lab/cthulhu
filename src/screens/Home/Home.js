@@ -5,7 +5,7 @@ import Controls from "../../objects/Controls";
 import EditorPanel from "../../components/EditorPanel";
 import GraphPanel from "../../components/GraphPanel";
 import Scene from "../../objects/Scene";
-import { Stats } from '@react-three/drei'
+// import { Stats } from '@react-three/drei'
 
 function Home() {
   // const { isPyodideLoading } = useContext(PyodideContext);
@@ -17,7 +17,7 @@ function Home() {
         className="relative w-full h-full overflow-hidden"
       >
         <Canvas shadows>
-          <Stats />
+          {/* <Stats /> */}
           <Scene />
 
           {/* Utils */}
