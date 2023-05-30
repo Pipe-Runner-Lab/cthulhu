@@ -10,12 +10,15 @@ import { useEffect, useRef } from "react";
 import { LinePlotter } from "../LinePlotter/LinePlotter";
 
 const SCALE_FACTOR = 100;
+const OFFSET = 100;
+const FPS = 120;
 
 export default function Scene() {
   const shipRef = useRef();
   const shipGhostRef = useRef();
   const thirdPersonGoalRef = useRef();
   const dataCounterIndex = useRef(0);
+  const deltaCounter = useRef(0);
 
   const simulationData = useStore((state) => state.simulationData);
   const animating = useStore((state) => state.animating);
@@ -34,30 +37,43 @@ export default function Scene() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [animating]);
 
-  useFrame(() => {
+  useFrame((state, delta) => {
     if (simulationData) {
-      // console.log(dataCounterIndex.current);
+      deltaCounter.current += delta;
+      // Check 60 FPS
+      if (deltaCounter.current < 1 / FPS) {
+        return;
+      }
+
+      const simulationDataLength = simulationData.get("Time").length;
 
       // x and z are swapped because of co-ordinate system
+      const shipAnimationIndex = dataCounterIndex.current;
+
       shipRef.current.position.z =
-        simulationData.get("Position (X)")[dataCounterIndex.current] *
-        SCALE_FACTOR;
+        simulationData.get("Position (X)")[shipAnimationIndex] * SCALE_FACTOR;
       shipRef.current.position.x =
-        simulationData.get("Position (Y)")[dataCounterIndex.current] *
-        SCALE_FACTOR;
+        simulationData.get("Position (Y)")[shipAnimationIndex] * SCALE_FACTOR;
       shipRef.current.rotation.y =
-        simulationData.get("Position (Sai)")[dataCounterIndex.current]; // TODO: Is it in radians?
+        simulationData.get("Position (Sai)")[shipAnimationIndex]; // TODO: Is it in radians?
 
       if (shipGhostRef.current) {
+        const ghostShipAnimationIndex =
+          shipAnimationIndex + OFFSET >= simulationDataLength
+            ? simulationDataLength - 1
+            : shipAnimationIndex + OFFSET;
+
         shipGhostRef.current.position.z =
-          (simulationData.get("Position (X`)")[dataCounterIndex.current] ?? 0) *
+          (simulationData.get("Position (X`)")[ghostShipAnimationIndex] ?? 0) *
           SCALE_FACTOR;
         shipGhostRef.current.position.x =
-          (simulationData.get("Position (Y`)")[dataCounterIndex.current] ?? 0) *
+          (simulationData.get("Position (Y`)")[ghostShipAnimationIndex] ?? 0) *
           SCALE_FACTOR;
         shipGhostRef.current.rotation.y =
-          simulationData.get("Position (Sai`)")[dataCounterIndex.current] ?? 0; // TODO: Is it in radians?
+          simulationData.get("Position (Sai`)")[ghostShipAnimationIndex] ?? 0; // TODO: Is it in radians?
       }
+
+      deltaCounter.current = 0;
     }
 
     if (animating === "playing" && simulationData) {

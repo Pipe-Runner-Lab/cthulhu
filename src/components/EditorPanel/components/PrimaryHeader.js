@@ -23,7 +23,7 @@ function PrimaryHeader() {
   const toggleShowPrediction = useStore((state) => state.toggleShowPrediction);
 
   return (
-    <div className="flex items-center justify-between w-full">
+    <div className="flex items-center justify-between w-full pb-2">
       <button
         className="flex items-center justify-center w-10 h-10 bg-red-300 rounded-md shadow-sm"
         onClick={() => setIsMenuOpen(false)}

@@ -124,18 +124,9 @@ dx(
     U = U
 )
 
-# force_array = [
-#     [0., [1, -1]],
-#     [30., [-1, 1]]
-# ]
 force_array = force.to_py()
 force_idx = 0
 
-# theta_array = [
-#     [0., [0., 0.]],
-#     [100., [0.2, 0.3]],
-#     [150., [0., 0.]],
-# ]
 theta_array = theta.to_py()
 theta_idx = 0
 

@@ -54,7 +54,7 @@ const sortChips = (chips) => {
 };
 
 const DefaultValues = {
-  time: "60",
+  time: "200",
   force: [
     "0,0.7,0",
     "5,0.5,0.5",
@@ -65,8 +65,10 @@ const DefaultValues = {
     "40,0.2,0.3",
     "45,0.4,0",
     "50,0.1,0.15",
+    "90, 1, 0.2",
+    "120, 1, -0.1"
   ],
-  theta: ["20,0.2,0.3", "40,0,0.1", "45,0,0", "55,0,0"],
+  theta: ["100, 0.3, 0.25", "150, 0, 0.2"],
 };
 
 function convertDataForPyodide(data, sTime) {
