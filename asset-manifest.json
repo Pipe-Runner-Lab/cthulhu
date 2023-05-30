@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/cthulhu/static/css/main.6bcbbace.css",
-    "main.js": "/cthulhu/static/js/main.97f9baf8.js",
+    "main.css": "/cthulhu/static/css/main.7302316b.css",
+    "main.js": "/cthulhu/static/js/main.944c5b7c.js",
     "static/js/759.bf7ecb8c.chunk.js": "/cthulhu/static/js/759.bf7ecb8c.chunk.js",
     "static/js/324.cff8d544.chunk.js": "/cthulhu/static/js/324.cff8d544.chunk.js",
     "static/js/787.9ee0b182.chunk.js": "/cthulhu/static/js/787.9ee0b182.chunk.js",
     "static/media/ship-light.gltf": "/cthulhu/static/media/ship-light.87fa47b7a59cf2af442f.gltf",
     "static/media/bouy.gltf": "/cthulhu/static/media/bouy.778003b00b14f02ef138.gltf",
     "static/media/waternormals.jpeg": "/cthulhu/static/media/waternormals.c01acb52aeed9bdc6da3.jpeg",
-    "static/media/simulator.py": "/cthulhu/static/media/simulator.570f2fed272fca50bbc1.py",
+    "static/media/simulator.py": "/cthulhu/static/media/simulator.fb3d945ffe1461e03a3e.py",
     "index.html": "/cthulhu/index.html",
-    "main.6bcbbace.css.map": "/cthulhu/static/css/main.6bcbbace.css.map",
-    "main.97f9baf8.js.map": "/cthulhu/static/js/main.97f9baf8.js.map",
+    "main.7302316b.css.map": "/cthulhu/static/css/main.7302316b.css.map",
+    "main.944c5b7c.js.map": "/cthulhu/static/js/main.944c5b7c.js.map",
     "759.bf7ecb8c.chunk.js.map": "/cthulhu/static/js/759.bf7ecb8c.chunk.js.map",
     "324.cff8d544.chunk.js.map": "/cthulhu/static/js/324.cff8d544.chunk.js.map",
     "787.9ee0b182.chunk.js.map": "/cthulhu/static/js/787.9ee0b182.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.6bcbbace.css",
-    "static/js/main.97f9baf8.js"
+    "static/css/main.7302316b.css",
+    "static/js/main.944c5b7c.js"
   ]
 }
