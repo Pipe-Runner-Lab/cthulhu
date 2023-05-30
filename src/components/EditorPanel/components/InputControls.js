@@ -130,6 +130,7 @@ function SimulationControls({ isDisabled }) {
   const { asyncRun } = useContext(PyodideContext);
 
   const setSimulationData = useStore((state) => state.setSimulationData);
+  const setAnimating = useStore((state) => state.setAnimating);
 
   const [force, setForce] = useState(DefaultValues.force);
   const [theta, setTheta] = useState(DefaultValues.theta);
@@ -169,6 +170,7 @@ function SimulationControls({ isDisabled }) {
   }, [processedData]);
 
   const computeSimulation = async () => {
+    setAnimating("stopped");
     setSimulationData(null);
     const code = await extractScriptText(script);
 
