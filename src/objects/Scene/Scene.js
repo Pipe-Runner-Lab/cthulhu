@@ -11,7 +11,7 @@ import { LinePlotter } from "../LinePlotter/LinePlotter";
 
 const SCALE_FACTOR = 100;
 const OFFSET = 100;
-const FPS = 120;
+const FPS = 60;
 
 export default function Scene() {
   const shipRef = useRef();
